@@ -1,16 +1,18 @@
 import { useState, useEffect } from 'react';
 import BreweryInfo from "./Components/breweryInfo";
 import './App.css';
+// import SideNav from "./Components/sideNav";
 
 function App() {
     const [list, setList] = useState(null);
     const [filteredResults, setFilteredResults] = useState([]);
-    const [searchInput, setSearchInput] = useState("");
+    const [searchInput, setSearchInput] = useState(""); 
+
 
     useEffect(() => {
       const fetchAllBreweries = async () => {
         const response = await fetch(
-          "https://api.openbrewerydb.org/v1/breweries"
+          'https://api.openbrewerydb.org/v1/breweries'
         );
         const json = await response.json();
         setList(json);
@@ -34,19 +36,26 @@ function App() {
     };
 
   return (
-    <div className="whole-page">
-      <h1>Breweries List</h1>
+    <div className="whole-page"> 
+      {/* <SideNav /> */}
+      <h1>🍺Breweries List</h1>
+      <h3>Search for breweries by name, city, state or zip code.</h3>
+      
       <input
+        className="search-bar"
         type="text"
-        placeholder="Search..."
+        placeholder="SEARCH"
         onChange={(inputString) => searchItems(inputString.target.value)}
       />
+      <br></br>
+      <br></br>
       {searchInput.length > 0
         ? filteredResults.map((brewery) => (
             <BreweryInfo
               key={brewery.id}
               name={brewery.name}
               state={brewery.state}
+              city={brewery.city}
               postal={brewery.postal_code}
             />
           ))
@@ -56,6 +65,7 @@ function App() {
                 key={brewery.id}
                 name={brewery.name}
                 state={brewery.state}
+                city={brewery.city}
                 postal={brewery.postal_code}
               />
             ))}
